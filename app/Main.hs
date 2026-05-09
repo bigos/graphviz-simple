@@ -1,9 +1,8 @@
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module Main (main) where
 
--- import Data.GraphViz
 import Data.GraphViz.Attributes (color, filled, shape, style, textLabel)
 import Data.GraphViz.Attributes.Colors.X11 (X11Color (Blue, LightGray, White))
 import Data.GraphViz.Attributes.Complete (Shape (MDiamond, MSquare))
@@ -11,6 +10,7 @@ import Data.GraphViz.Printing (renderDot, toDot)
 import Data.GraphViz.Types.Generalised (DotGraph)
 import Data.GraphViz.Types.Monadic (GraphID (Str), cluster, digraph, graphAttrs, node, nodeAttrs, (-->))
 import Data.Text.Lazy.IO qualified as T
+import System.Process (callCommand)
 
 graph :: DotGraph String
 graph =
@@ -42,8 +42,9 @@ graph =
 
 main :: IO ()
 main = do
-  -- dot -Tpng /tmp/graph.dot -o graph.png
   T.writeFile "/tmp/graph.dot" (renderDot (toDot graph))
+  -- dot -Tpng /tmp/graph.dot -o graph.png
+  callCommand "dot -Tpng /tmp/graph.dot -o /tmp/graph.png"
   putStrLn "Tell me your name"
   name <- getLine
-  putStrLn ("Hello " ++ name ++ ", nice to meet you.")
+  putStrLn ("Hello " ++ name ++ ", nice to meet you. By the way, check the /tmp/graph.png")

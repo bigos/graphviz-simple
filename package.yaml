@@ -41,13 +41,17 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
-    - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - graphviz-simple
     - graphviz
     - text
+    - process
+    when:
+    - condition: false
+      other-modules: Paths_graphviz_simple
+      # https://stackoverflow.com/a/67949236/1395810
 
 tests:
   graphviz-simple-test:
